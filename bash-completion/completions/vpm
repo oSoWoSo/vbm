@@ -10,7 +10,7 @@ _vpm()
 	listrepos
 	repolist
 	addrepo
-	info
+	about
 	filelist
 	deps
 	reverse
@@ -29,7 +29,7 @@ _vpm()
 	autoremove
 	help
 	helppager'
-    local all_pkgs='info|in|filelist|fl|deps|reverse|rv|search|s|install|i|devinstall|di'
+    local all_pkgs='about|a|filelist|fl|deps|reverse|rv|search|s|install|i|devinstall|di'
     local installed_pkgs='listalternatives|la|setalternative|sa|reconfigure|rc|forceinstall|fi|remove|rm|removerecursive|rc'
 
     if [[ $prev == @($1) ]]; then

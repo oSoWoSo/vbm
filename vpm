@@ -1,23 +1,18 @@
 #!/bin/bash
 # vim: ft=sh ts=2 sw=2 sts=2 et
-
 # vpm - void package management utility for
 # XBPS, the X Binary Package System
 # Copyright (c) 2016 Armin Jenewein <a@m2m.pm>, GitHub: @netzverweigerer
 # Copyright (c) 2019 Dave Eddy <dave@daveeddy.com>, GitHub: @bahamas10
-# Copyright (c) 2021 zenobit, <b0yc8wrv7@relay.firefox.com>, GitHub: @zen0bit Gitlab: @zenobit
+# Copyright (c) 2021 zenobit from oSoWoSo <zen@osowoso.xyz>, codeberg.org: @oSoWoSo
 # For more information about XBPS, see:
 # https://github.com/voidlinux/xbps
-
 # Released under the terms of the GNU general public license, version 3+
 # see LICENSE file for license information.
-
 # set version number
-version="1.2c"
-
+version="1.3.1"
 # disable verbosity, by default
 # verbose=false
-
 # VPM color definitions
 numcolorok=2
 numcolorfail=1
@@ -28,9 +23,7 @@ numcolorgray=2
 numcolorpkgcount=8
 numcolordarkgray=11
 numcolorbrackets=6
-
 progname=${0##*/}
-
 # enable or disable colors based on the argument given, i.e.:
 # setcolors on   # colors on
 # setcolors off  # colors off
@@ -140,7 +133,7 @@ banner () {
   echo -n "$colorlogo"
   echo -n '  \_/| .__/_|_|_|'
   echo -n "$colorgray"
-  echo '  GitHub: https://github.com/oSoWoSo/vpm'
+  echo '  Source: https://codeberg.org/oSoWoSo/vpm'
   echo -n "$colorlogo"
   echo '     |/          '
   echo '     ´          '
@@ -151,8 +144,7 @@ version () {
   banner
   msg "$progname - Version: $version"
   msg "Copyright (c) 2016 Armin Jenewein <a@m2m.pm> (GPLv3+)"
-  msg "Copyright (c) 2019 Dave Eddy <dave@daveeddy.com>"
-  msg "Copyright (c) 2021 zenobit <b0yc8wrv7@relay.firefox.com>"
+  msg "zenobit from oSoWoSo <zen@osowoso.xyz>"
   msg "XBPS version: $(xbps-query -v --version | sed 's/GIT: UNSET//')"
 }
 
@@ -537,6 +529,8 @@ case "$cmd" in
         msg -n $? 'Something goes wrong!'
       fi
     fi
+    msg -n 'Checking if something need restart...'
+    xcheckrestart
   ;;
 
   search|s)
