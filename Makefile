@@ -7,14 +7,14 @@ all:
 
 .PHONY: install
 install:
-	cp ./vpm $(PREFIX_BIN)/vpm
-	cp ./bash-completion/completions/vpm $(PREFIX_BASHC)/vpm
+	cp ./vbm $(PREFIX_BIN)/vbm
+	cp ./bash-completion/completions/vbm $(PREFIX_BASHC)/vbm
 
 .PHONY: uninstall
 uninstall:
-	rm -f $(PREFIX_BIN)/vpm
-	rm -f $(PREFIX_BASHC)/vpm
+	rm -f $(PREFIX_BIN)/vbm
+	rm -f $(PREFIX_BASHC)/vbm
 
 .PHONY: check
 check:
-	which vpm
+	which vbm
