@@ -15,8 +15,10 @@
 version="1.4.1"
 # disable verbosity by default
 verbose=false
+# override color settigs
+colors=auto
+
 # VBM color definitions
-numc0=0
 numc1=1
 numc2=2
 numc3=3
@@ -26,7 +28,6 @@ numc6=6
 numc7=7
 numc8=8
 # second definition
-c0=${numc0}
 c1=${numc1}
 c2=${numc2}
 c3=${numc3}
@@ -35,14 +36,9 @@ c5=${numc5}
 c6=${numc6}
 c7=${numc7}
 c8=${numc8}
-# underlines
-u="${[0;4m}"
-b=$"{[0;1m}"
-bu=$"{[1;4m}"
 
 ## COLORS
 #c=$(tput sgr0) # reset
-#c0=$(tput setaf 0) # black
 #c1=$(tput setaf 1) # red
 #c2=$(tput setaf 2) # green
 #c3=$(tput setaf 3) # yellow
@@ -81,7 +77,6 @@ setcolors () {
         fi
         COLORS[$i]=$(tput setaf "$i")
       done
-      c0=${COLORS[$numc0]}
       c1=${COLORS[$numc1]}
       c2=${COLORS[$numc2]}
       c3=${COLORS[$numc3]}
@@ -90,13 +85,9 @@ setcolors () {
       c6=${COLORS[$numc6]}
       c7=${COLORS[$numc7]}
       c8=${COLORS[$numc8]}
-      u=$"{[0;4m}"
-      b=$"{[0;1m}"
-      bu=$"{[1;4m}"
       c=$(tput sgr0)
     ;;
     off)
-      c0=
       c1=
       c2=
       c3=
@@ -106,9 +97,6 @@ setcolors () {
       c7=
       c8=
       c=
-      u=
-      b=
-      bu=
       unset COLORS
       declare -A COLORS
     ;;
@@ -486,7 +474,7 @@ case "$cmd" in
     rootcheck
     msg -n 'Synchronizing remote repository data '
     echo
-    wrapcommand $SUDO xbps-install -S
+    wrapcommand "$SUDO" xbps-install -S
   ;;
 
   install|i)
@@ -498,7 +486,7 @@ case "$cmd" in
 
     msg -n "Installing packages: $* "
     echo
-    wrapcommand $SUDO xbps-install "$@"
+    wrapcommand "$SUDO" xbps-install "$@"
   ;;
 
   yesinstall)
@@ -509,7 +497,7 @@ case "$cmd" in
     fi
     msg -n "Installing packages (assumed yes): $* "
     echo
-    wrapcommand $SUDO xbps-install -y "$@"
+    wrapcommand "$SUDO" xbps-install -y "$@"
   ;;
 
   devinstall)
@@ -546,35 +534,35 @@ case "$cmd" in
     rootcheck
     msg -n "Force-Installing Package(s): $* "
     echo
-    wrapcommand $SUDO xbps-install -f "$@"
+    wrapcommand "$SUDO" xbps-install -f "$@"
   ;;
 
   remove|rm)
     rootcheck
     msg -n "Removing package(s): $* "
     echo
-    wrapcommand $SUDO xbps-remove -v "$@"
+    wrapcommand "$SUDO" xbps-remove -v "$@"
   ;;
 
   removerecursive|rr)
     rootcheck
     msg -n "Removing package(s) recursively: $* "
     echo
-    wrapcommand $SUDO xbps-remove -v -R "$@"
+    wrapcommand "$SUDO" xbps-remove -v -R "$@"
   ;;
 
   reconfigure|rc)
     rootcheck
     msg -n 'reconfigure: Re-configuring package(s) '
     echo
-    wrapcommand $SUDO xbps-reconfigure -v "$@"
+    wrapcommand "$SUDO" xbps-reconfigure -v "$@"
   ;;
 
   autoremove|ar)
     rootcheck
     msg -n 'autoremove: Removing orphaned packages '
     echo
-    wrapcommand $SUDO xbps-remove -v -o
+    wrapcommand "$SUDO" xbps-remove -v -o
   ;;
 
   update|upgrade|up)
@@ -585,7 +573,7 @@ case "$cmd" in
     if [[ $? == 16 ]]; then
       msg -n "$(tput setaf 1)Updating xbps $(tput sgr 0)"
       $SUDO xbps-install -u xbps
-      wrapcommand $SUDO xbps-install -Suv
+      wrapcommand "$SUDO" xbps-install -Suv
     else
       if [[ $? == 1 ]]; then
         msg 'Your system is up to date.'
@@ -611,7 +599,7 @@ case "$cmd" in
     msg -n 'Remove obsolete packages in cachedir '
     rootcheck
     echo
-    wrapcommand $SUDO xbps-remove -v -O "$@"
+    wrapcommand "$SUDO" xbps-remove -v -O "$@"
   ;;
 
   h|help|-h|--help)
