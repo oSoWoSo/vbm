@@ -112,6 +112,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 - repos mirrored at:
 - 'https://github.com/oSoWoSo/vpm2'
-- 'https://gitlab.com/linux15/void/vpm2'
+- 'https://gitlab.com/linux15/void/vpm'
 - 'https://git.disroot.org/oSoWoSo/vpm2'
 - more mirrors will come...
