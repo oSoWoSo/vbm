@@ -1,11 +1,11 @@
 #!/bin/bash
 # vim: ft=sh ts=2 sw=2 sts=2 et
 
-# vbm - vb-linux management utility for
+# vpm2 - vb-linux management utility for
 # XBPS, the X Binary Package System
-# original author: Armin Jenewein <a@m2m.pm>, GitHub: @netzverweigerer
+# original authorof vpm: Armin Jenewein <a@m2m.pm>, GitHub: @netzverweigerer
 # a lot used from: Dave Eddy <dave@daveeddy.com>, GitHub: @bahamas10
-# this fork: zenobit from oSoWoSo <pm@osowoso.xyz>, codeberg.org: @oSoWoSo
+# this fork vpm2: zenobit from oSoWoSo <pm@osowoso.xyz>, codeberg.org: @oSoWoSo
 # For more information about XBPS, see:
 # https://github.com/voidlinux/xbps
 # Released under the terms of the GNU general public license, version 3+
@@ -15,8 +15,10 @@
 version="1.4.1"
 # disable verbosity by default
 verbose=false
-# VBM color definitions
-numc0=0
+# override color settings
+colors=auto
+
+# VPM color definitions
 numc1=1
 numc2=2
 numc3=3
@@ -25,8 +27,7 @@ numc5=5
 numc6=6
 numc7=7
 numc8=8
-# second definition
-c0=${numc0}
+c=$(tput sgr0)
 c1=${numc1}
 c2=${numc2}
 c3=${numc3}
@@ -35,47 +36,27 @@ c5=${numc5}
 c6=${numc6}
 c7=${numc7}
 c8=${numc8}
+
 ## COLORS
-c=$(tput sgr0) # reset
-c0=$(tput setaf 0) # black
-c1=$(tput setaf 1) # red
-c2=$(tput setaf 2) # green
-c3=$(tput setaf 3) # yellow
-c4=$(tput setaf 4) # blue
-c5=$(tput setaf 5) # magenta
-c6=$(tput setaf 6) # light blue
-c7=$(tput setaf 7) # white
-c8=$(tput setaf 8) # grey
-# background
-b0=$(tput setab 0)
-b1=$(tput setab 1)
-b2=$(tput setab 2)
-b3=$(tput setab 3)
-b4=$(tput setab 4)
-b5=$(tput setab 5)
-b6=$(tput setab 6)
-b7=$(tput setab 7)
-b8=$(tput setab 8)
-b9=$(tput setab 9)
-# colortest
-echo "${c}" testclear
-echo "${c0}${b1}" testblack${c}
-echo "${c1}" testred
-echo "${c2}" testgreen
-echo "${c3}" testyellow
-echo "${c4}" testblue
-echo "${c5}" testmagenta
-echo "${c6}" testlightblue
-echo "${c7}" testwhite
-echo "${c8}" testgrey
-echo "${c}" testclear
+#c=$(tput sgr0) # reset
+#c1=$(tput setaf 1) # red
+#c2=$(tput setaf 2) # green
+#c3=$(tput setaf 3) # yellow
+#c4=$(tput setaf 4) # blue
+#c5=$(tput setaf 5) # magenta
+#c6=$(tput setaf 6) # light blue
+#c7=$(tput setaf 7) # white
+#c8=$(tput setaf 8) # grey
+
 # program name
 progname=${0##*/}
+
 # enable or disable colors based on the argument given, i.e.:
 # setcolors on   # colors on
 # setcolors off  # colors off
 # setcolors auto # colors on or off depending on environment
 declare -A COLORS
+
 setcolors () {
   local opt=$1
   # determine if colors should be enabled or not
@@ -96,7 +77,6 @@ setcolors () {
         fi
         COLORS[$i]=$(tput setaf "$i")
       done
-      c0=${COLORS[$numc0]}
       c1=${COLORS[$numc1]}
       c2=${COLORS[$numc2]}
       c3=${COLORS[$numc3]}
@@ -108,7 +88,6 @@ setcolors () {
       c=$(tput sgr0)
     ;;
     off)
-      c0=
       c1=
       c2=
       c3=
@@ -127,6 +106,7 @@ setcolors () {
     ;;
   esac
 }
+
 # print the logo with brackets colorized
 getlogo () {
   printf '%s[%s%s%s]%s' \
@@ -135,7 +115,8 @@ getlogo () {
     "$c6" \
     "$c"
 }
-# prints a message (with vbm-prefix)
+
+# prints a message (with vpm-prefix)
 msg () {
   local logo=$(getlogo)
   local newline=true
@@ -148,6 +129,7 @@ msg () {
   printf '%s %s%s%s' "$logo" "$c4" "$*" "$c"
   $newline && echo
 }
+
 # rmsg - same (but colorized based on return status passed via $1)
 rmsg () {
   local code=$1
@@ -167,15 +149,18 @@ rmsg () {
 
 banner () {
   echo -n "$c5"
-  echo ' __ __/|__ _ __  '
+  echo ' __ ___ __ _ __  '
+
   printf " \\ V / '_ \\ '  \ "
   echo -n "$c2"
-  echo "  $progname - An XBPS package management helper"
+  echo "  $progname - void package management utility for XBPS"
   echo -n "$c5"
-  echo -n '  \_/|_,__/_|_|_|'
+  echo -n '  \_/| .__/_|_|_\'
   echo -n "$c2"
-  echo '  Source: https://codeberg.org/oSoWoSo/vbm'
+  echo '  GitHub: https://github.com/netzverweigerer/vpm'
   echo -n "$c5"
+  echo '     |/          '
+  echo '     ´          '
   echo -n "$c"
 }
 
@@ -187,6 +172,7 @@ version () {
   msg "this fork: zenobit from oSoWoSo <pm@osowoso.xyz>, codeberg.org: @oSoWoSo"
   msg "XBPS version: $(xbps-query -v --version | sed 's/GIT: UNSET//')"
 }
+
 # check if we have UID 0, exit otherwise
 rootcheck () {
   if [[ $EUID -gt 0 ]]; then
@@ -219,106 +205,81 @@ wrapcommand() {
   exit "$ret"
 }
 
-usage () {  
-  echo -n "${c}"
-  echo "testing-clear"
-  echo -n "$c0"
-  echo "testing-c0-black"
-  echo -n "$c1"
-  echo "testing-c1-red"
-  echo -n "$c2"
-  echo "testing-c2-"
-  echo -n "$c3"
-  echo "testing-c3-"
-  echo -n "$c4"
-  echo "testing-c4-"
-  echo -n "$c5"
-  echo "testing-c5-"
-  echo -n "$c6"
-  echo "testing-c6-"
-  echo -n "$c7"
-  echo "testing-c7-"
-  echo -n "$c8"
-  echo "testing-c8-"
-  echo -n "${c}"
-  echo "testing-clear"
-
+usage () {
   echo "${c2}USAGE:
-   ${c1}${progname} ${c8}[OPTIONS] ${c7}[SUBCOMMANDS] ${c3}[<ARGS>]"
-  echo "${c8}OPTIONS:"
-  echo "${c8}--color=<yes|no|auto>
-  ${c4}Enable/Disable colorized output (default: auto)"
-  echo "${c8}--help               
-  ${c4}(same as: help)"
-  echo "${c8}--help-pager         
-  ${c4}(same as: helppager)"
-  echo "${c8}--show-translations  
-  ${c4}Show XBPS command translations for $progname sub-commands"
-  echo "${c8}--verbose            
-  ${c4}Verbose mode (shows XBPS command translations during execution)"
-  echo "${c8}--version                    
-  ${c4}Show version and exit"
-  echo "$c2"
-  echo "${c2}long:${c7}SUBCOMMANDS${c1}:(short) ${c3}<ARGS>"
-  echo "$c4"
-  echo "${c2}help                         
-  ${c4}Show usage information"
-  echo "${c2}helppager        ${c1}(hp)         
-  ${c4}Show usage information (will pipe output to less/more)"
-  echo "${c2}about             ${c1}(a) ${c3}<pkg>    
+${c1}${progname} ${c8}[OPTIONS] ${c7}[SUBCOMMANDS] ${c3}[<ARGS>]
+${c8} OPTIONS : 
+${c8}--color=<yes|no|auto>
+  ${c4}Enable/Disable colorized output (default: auto)
+${c8}--help
+  ${c4}(same as: help)
+${c8}--help-pager
+  ${c4}(same as: helppager)
+${c8}--show-translations
+  ${c4}Show XBPS command translations for $progname sub-commands
+${c8}--verbose
+  ${c4}Verbose mode (shows XBPS command translations during execution)
+${c2} long : ${c7}SUBCOMMANDS${c1} : ${c1}(short)   ${c3}<ARGS> 
+${c2}help
+  ${c4}Show usage information
+${c2}helppager        ${c1}(hp)
+  ${c4}Show usage information (will pipe output to less/more)
+${c2}version           ${c1}(v)
+  ${c4}Show version and exit
+${c2}about             ${c1}(a) ${c3}<pkg>
   ${c4}Show information about <package>"
   t "xbps-query -v -R"
-  echo "${c2}filelist         ${c1}(fl) ${c3}<pkg>   
+  echo "${c2}filelist         ${c1}(fl) ${c3}<pkg>
   ${c4}Show file-list of <package>"
   t "xbps-query -v -R -f"
-  echo "${c2}deps              ${c1}(d) ${c3}<pkg>    
+  echo "${c2}deps              ${c1}(d) ${c3}<pkg>
   ${c4}Show dependencies for <package>"
   t "xbps-query -v -R -x"
-  echo "${c2}reverse          ${c1}(rd) ${c3}<pkg>   
+  echo "${c2}reverse          ${c1}(rd) ${c3}<pkg>
   ${c4}Show reverse dependendies of <package> (see man xbps-query)"
   t "xbps-query -v -R -X"
-  echo "${c2}search            ${c1}(s) ${c3}<pkg>    
+  echo "${c2}search            ${c1}(s) ${c3}<pkg>
   ${c4}Search for package"
   t "xbps-query -v -Rs"
-  echo "${c2}searchlib        ${c1}(sl) ${c3}<pkg>   
+  echo "${c2}searchlib        ${c1}(sl) ${c3}<pkg>
   ${c4}Search for package (multilib exclude)"
   t "xbps-query -v -Rs"
-  echo "${c2}searchfile       ${c1}(sf) ${c3}<file>  
+  echo "${c2}searchfile       ${c1}(sf) ${c3}<file>
   ${c4}Search for package containing <file> (local)"
   t "xbps-query -v -o \"*/$1\""
-  echo "${c2}whatprovides     ${c1}(wp) ${c3}<file>  
+  echo "${c2}whatprovides     ${c1}(wp) ${c3}<file>
   ${c4}Search for package containing <file>"
   t "xlocate ${c3}<pkg>"
-  echo "${c2}list             ${c1}(ls)         
+  echo "${c2}list             ${c1}(ls)
   ${c4}List installed packages"
   t "xbps-query -v -l"
-  echo "${c2}listw            ${c1}(lw)         
+  echo "${c2}listw            ${c1}(lw)
   ${c4}List installed packages without their version"
   t "xbps-query -l | awk '{ print $2 }' | xargs -n1 xbps-uhelper getpkgname"
-  echo "${c2}listalternatives ${c1}(la)         
+  echo "${c2}listalternatives ${c1}(la)
   ${c4}List alternative candidates"
   t "xbps-alternatives -l"
-  echo "${c2}listrepos        ${c1}(lr)         
+  echo "${c2}listrepos        ${c1}(lr)
   ${c4}List configured repositories"
-  echo "${c2}repolist         ${c1}(rl)         
+  echo "${c2}repolist         ${c1}(rl)
   ${c4}Alias for listrepos"
   t "xbps-query -v -L"
-  echo "${c2}sync             ${c1}(sy)         
+  echo "${c2}sync             ${c1}(sy)
   ${c4}Synchronize remote repository data"
   t "xbps-install -S"
-  echo "${c2}update           ${c1}(up)         
+  echo "${c2}update           ${c1}(up)
   ${c4}Update the system"
   t "xbps-install -Suv"
-  echo "${c2}addrepo          ${c1}(ad) ${c3}<ARGS>  
+  echo "${c2}addrepo          ${c1}(ad) ${c3}<ARGS>
   ${c4}Add an additional repository"
   t "xbps-install <ARGS>"
-  echo "${c2}install           ${c1}(i) ${c3}<pkg(s)> 
+  echo "${c2}install           ${c1}(i) ${c3}<pkg(s)>
   ${c4}Install <package(s)>"
   t "xbps-install"
   echo "${c2}devinstall       ${c1}(di) ${c3}<pkg(s)>
   ${c4}Install <package> and devel-<package>(s)"
   t "xbps-install <package> <package>-devel"
-  echo "${c2}reconfigure      ${c1}(rc) ${c3}<pkg>   
+  echo "${c2}reconfigure      ${c1}(rc) ${c3}<pkg>
   ${c4}Re-configure installed <package>"
   t "xbps-reconfigure -v"
   echo "${c2}forceinstall     ${c1}(fi) ${c3}<pkg(s)>
@@ -333,22 +294,19 @@ usage () {
   echo "${c2}removerecursive  ${c1}(rr) ${c3}<pkg(s)>
   ${c4}Recursively remove package(s) (and its dependencies)"
   t "xbps-remove -v -R"
-  echo "${c2}cleanup          ${c1}(cl)         
+  echo "${c2}cleanup          ${c1}(cl)
   ${c4}Remove obsolete packages in cachedir"
   t "xbps-remove -v -O"
-  echo "${c2}autoremove       ${c1}(ar)               
+  echo "${c2}autoremove       ${c1}(ar)
   ${c4}Remove orphaned packages"
   t "xbps-remove -v -o"
-  echo "$c2"
-  echo "${c2}XBPS COMPATIBILITY:"
-  echo "$c2"
+  echo "${c2} XBPS COMPATIBILITY ${c2}: "
   f=(/usr/sbin/xbps-*)
   echo "${c4}$progname also understands all unknown XBPS sub-commands, too:"
   echo -n "${c2}Example: ${c7}"
   selected=${f[$RANDOM % ${#f[@]}]}
   echo "$progname ${selected##*-} <ARGS>
-  ${c2}see also: ${c4}/usr/sbin/xbps-*"
-  echo -n "$c"
+  ${c2}see also: ${c4}/usr/sbin/xbps-* ${c}"
 }
 
 setcolors auto
@@ -388,10 +346,12 @@ case "$1" in
   ;;
 esac
 
+
 if [[ -z $1 ]]; then
   usage
   exit 0
 fi
+
 
 cmd=$1
 if [[ $arg =~ --.* ]]; then
@@ -400,6 +360,7 @@ fi
 shift
 
 case "$cmd" in
+
   about|a)
     wrapcommand xbps-query -v -R "$@"
   ;;
@@ -516,7 +477,7 @@ case "$cmd" in
     rootcheck
     msg -n 'Synchronizing remote repository data '
     echo
-    wrapcommand $SUDO xbps-install -S
+    wrapcommand "$SUDO" xbps-install -S
   ;;
 
   install|i)
@@ -528,7 +489,7 @@ case "$cmd" in
 
     msg -n "Installing packages: $* "
     echo
-    wrapcommand $SUDO xbps-install "$@"
+    wrapcommand "$SUDO" xbps-install "$@"
   ;;
 
   yesinstall)
@@ -539,7 +500,7 @@ case "$cmd" in
     fi
     msg -n "Installing packages (assumed yes): $* "
     echo
-    wrapcommand $SUDO xbps-install -y "$@"
+    wrapcommand "$SUDO" xbps-install -y "$@"
   ;;
 
   devinstall)
@@ -576,35 +537,35 @@ case "$cmd" in
     rootcheck
     msg -n "Force-Installing Package(s): $* "
     echo
-    wrapcommand $SUDO xbps-install -f "$@"
+    wrapcommand "$SUDO" xbps-install -f "$@"
   ;;
 
   remove|rm)
     rootcheck
     msg -n "Removing package(s): $* "
     echo
-    wrapcommand $SUDO xbps-remove -v "$@"
+    wrapcommand "$SUDO" xbps-remove -v "$@"
   ;;
 
   removerecursive|rr)
     rootcheck
     msg -n "Removing package(s) recursively: $* "
     echo
-    wrapcommand $SUDO xbps-remove -v -R "$@"
+    wrapcommand "$SUDO" xbps-remove -v -R "$@"
   ;;
 
   reconfigure|rc)
     rootcheck
     msg -n 'reconfigure: Re-configuring package(s) '
     echo
-    wrapcommand $SUDO xbps-reconfigure -v "$@"
+    wrapcommand "$SUDO" xbps-reconfigure -v "$@"
   ;;
 
   autoremove|ar)
     rootcheck
     msg -n 'autoremove: Removing orphaned packages '
     echo
-    wrapcommand $SUDO xbps-remove -v -o
+    wrapcommand "$SUDO" xbps-remove -v -o
   ;;
 
   update|upgrade|up)
@@ -615,15 +576,15 @@ case "$cmd" in
     if [[ $? == 16 ]]; then
       msg -n "$(tput setaf 1)Updating xbps $(tput sgr 0)"
       $SUDO xbps-install -u xbps
-      wrapcommand $SUDO xbps-install -Suv
+      wrapcommand "$SUDO" xbps-install -Suv
     else
       if [[ $? == 1 ]]; then
-        msg -n 'Your system is up to date.'
+        msg 'Your system is up to date.'
       else
-        msg -n $? 'Something goes wrong!'
+        msg $? 'Something goes wrong!'
       fi
     fi
-    msg -n 'Checking if something need restart...'
+    msg 'Checking if something need restart...'
     xcheckrestart
   ;;
 
@@ -641,7 +602,7 @@ case "$cmd" in
     msg -n 'Remove obsolete packages in cachedir '
     rootcheck
     echo
-    wrapcommand $SUDO xbps-remove -v -O "$@"
+    wrapcommand "$SUDO" xbps-remove -v -O "$@"
   ;;
 
   h|help|-h|--help)

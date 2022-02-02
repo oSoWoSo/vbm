@@ -1,6 +1,6 @@
 source /usr/share/bash-completion/completions/xbps
 
-_vbm()
+_vpm()
 {
     local cur prev words cword
     _init_completion || return
@@ -12658,5 +12658,5 @@ _vbm()
 	xsnow'
     
 } &&
-complete -F _vbm vbm
+complete -F _vpm vpm
 
