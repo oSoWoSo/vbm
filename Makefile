@@ -7,7 +7,7 @@ all:
 
 .PHONY: install
 install:
-	cp ./vpm $(PREFIX_BIN)/vpm
+	cp ./vpm2 $(PREFIX_BIN)/vpm
 	cp ./bash-completion/completions/vpm $(PREFIX_BASHC)/vpm
 
 .PHONY: uninstall
