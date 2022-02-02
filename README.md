@@ -15,19 +15,19 @@ That's it.
 
 vpm...
 
-![vpm](https://codeberg.org/oSoWoSo/vpm/raw/branch/main/screenshots/vpm.png)
+![vpm](https://codeberg.org/oSoWoSo/vpm2/raw/branch/main/screenshots/vpm.png)
 
 vpm trying install package but...
 
-![try](https://codeberg.org/oSoWoSo/vpm/raw/branch/main/screenshots/vpm2.png)
+![try](https://codeberg.org/oSoWoSo/vpm2/raw/branch/main/screenshots/vpm2.png)
 
 vpm automatic updating xbps while updating system...
 
-![xbps](https://codeberg.org/oSoWoSo/vpm/raw/branch/main/screenshots/vpm3.png)
+![xbps](https://codeberg.org/oSoWoSo/vpm2/raw/branch/main/screenshots/vpm3.png)
 
 vpm installing package...
 
-![xbps](https://codeberg.org/oSoWoSo/vpm/raw/branch/main/screenshots/vpm4.png)
+![xbps](https://codeberg.org/oSoWoSo/vpm2/raw/branch/main/screenshots/vpm4.png)
 
 # Motivation to write vpm
 
@@ -106,12 +106,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 - https://github.com/netzverweigerer/vpm - vpm was written by Armin Jenewein <vpm@m2m.pm>
 - https://github.com/bahamas10/vpm - forked by Dave Eddy <dave@daveeddy.com>
-- https://codeberg.org/oSoWoSo/vpm - and this fork by zenobit <zen@osowoso.xyz>
+- https://codeberg.org/oSoWoSo/vpm2 - and this fork by zenobit <zen@osowoso.xyz>
 
 # Mirrors
 
 - repos mirrored at:
-- 'https://github.com/oSoWoSo/vpm'
-- 'https://gitlab.com/linux15/void/vpm'
-- 'https://git.disroot.org/oSoWoSo/vpm'
+- 'https://github.com/oSoWoSo/vpm2'
+- 'https://gitlab.com/linux15/void/vpm2'
+- 'https://git.disroot.org/oSoWoSo/vpm2'
 - more mirrors will come...
