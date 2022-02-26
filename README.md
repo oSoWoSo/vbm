@@ -1,6 +1,6 @@
 ### Changed name from vpm to vbm
 
-# vbm - An XBPS package management helper for vb-linux and VoidLinux
+# vbm - An XBPS package management helper for vb aka Void GNU/Linux
 version 1.4.1
 
 `vbm` is a simple to use, daily-driver enhancement to the awesome XBPS (X Binary
@@ -11,23 +11,11 @@ nitpickers understanding of the word - especially vbm shouldn't be confused with
 XBPS - vbm is just an addon helper tool for XBPS to make your life easier.
 That's it.
 
-# Screenshots
+# better then screenshots
 
 vbm...
 
-![vbm](https://codeberg.org/oSoWoSo/vbm/raw/branch/main/screenshots/vbm.png)
-
-vbm trying install package but...
-
-![try](https://codeberg.org/oSoWoSo/vbm/raw/branch/main/screenshots/vbm.png)
-
-vbm automatic updating xbps while updating system...
-
-![xbps](https://codeberg.org/oSoWoSo/vbm/raw/branch/main/screenshots/vbm3.png)
-
-vbm installing package...
-
-![xbps](https://codeberg.org/oSoWoSo/vbm/raw/branch/main/screenshots/vbm4.png)
+[![asciicast](https://asciinema.org/a/476068.svg)](https://asciinema.org/a/476068)
 
 # Motivation to write vpm
 
@@ -50,7 +38,7 @@ Or you can just grab vbm and paste it anywhere in your system.
 # Installation
 
 ### 1. Install xtools via `xbps-install` 
-### (optional - needed for for xcheckrestart functions)
+### (optional - needed for xcheckrestart functions)
 
     $ xbps-install -S xtools    
 

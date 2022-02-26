@@ -1,4 +1,4 @@
-PREFIX_BIN ?= /usr/local/bin
+PREFIX_BIN ?= /bin
 PREFIX_BASHC ?= /usr/share/bash-completion/completions
 
 .PHONY: all
@@ -7,8 +7,8 @@ all:
 
 .PHONY: install
 install:
-	cp ./vbm $(PREFIX_BIN)/vbm
-	cp ./bash-completion/completions/vbm $(PREFIX_BASHC)/vbm
+	cp vbm.sh $(PREFIX_BIN)/vbm
+	cp bash-completion/completions/vbm $(PREFIX_BASHC)/vbm
 
 .PHONY: uninstall
 uninstall:
