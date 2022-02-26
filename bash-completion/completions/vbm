@@ -1,6 +1,6 @@
 source /usr/share/bash-completion/completions/xbps
 
-_vpm()
+_vbm()
 {
     local cur prev words cword
     _init_completion || return
@@ -11885,7 +11885,7 @@ _vpm()
 	vorbis-tools
 	vorbisgain
 	vpcs
-	vpm
+	vbm
 	vpn-slice
 	vpn-ws
 	vpnc
@@ -12658,5 +12658,5 @@ _vpm()
 	xsnow'
     
 } &&
-complete -F _vpm vpm
+complete -F _vbm vbm
 

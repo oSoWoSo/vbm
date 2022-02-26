@@ -1,11 +1,11 @@
 #!/bin/bash
 # vim: ft=sh ts=2 sw=2 sts=2 et
 
-# vpm2 - vb-linux management utility for
+# vbm - vb-linux management utility for
 # XBPS, the X Binary Package System
-# original authorof vpm: Armin Jenewein <a@m2m.pm>, GitHub: @netzverweigerer
+# original author of vpm: Armin Jenewein <a@m2m.pm>, GitHub: @netzverweigerer
 # a lot used from: Dave Eddy <dave@daveeddy.com>, GitHub: @bahamas10
-# this fork vpm2: zenobit from oSoWoSo <pm@osowoso.xyz>, codeberg.org: @oSoWoSo
+# this fork vbm: zenobit from oSoWoSo <pm@osowoso.xyz>, codeberg.org: @oSoWoSo
 # For more information about XBPS, see:
 # https://github.com/voidlinux/xbps
 # Released under the terms of the GNU general public license, version 3+
@@ -116,7 +116,7 @@ getlogo () {
     "$c"
 }
 
-# prints a message (with vpm-prefix)
+# prints a message (with vbm-prefix)
 msg () {
   local logo=$(getlogo)
   local newline=true
