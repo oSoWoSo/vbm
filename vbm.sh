@@ -13,7 +13,7 @@
 # see LICENSE file for license information.
 
 # set version number
-version="1.4.2"
+version="1.0"
 # enable verbosity, by default
 verbose=true
 # program name
