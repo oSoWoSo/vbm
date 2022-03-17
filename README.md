@@ -1,7 +1,7 @@
 ### Changed name from vpm to vbm
 
 # vbm - An XBPS package management helper for vb aka Void GNU/Linux
-version 1.4.1
+version 1.0
 
 `vbm` is a simple to use, daily-driver enhancement to the awesome XBPS (X Binary
 Package System), initially designed as a helper tool for use with VoidLinux.
@@ -37,26 +37,29 @@ Or you can just grab vbm and paste it anywhere in your system.
 
 # Installation
 
-### 1. Install xtools via `xbps-install` 
 ### (optional - needed for xcheckrestart functions)
 
-    $ xbps-install -S xtools    
+### Install xtools via `xbps-install`
 
-### 2. Clone vbm repository
+    xbps-install -S xtools    
 
-    $ git clone https://codeberg.org/oSoWoSo/vbm.git
+### 1. Clone vbm repository
 
-### 3. Enter the cloned repo and install vbm
+    git clone https://codeberg.org/oSoWoSo/vbm.git
 
-    $ cd vbm
-    $ chmod +x vbm
-    $ make install
-        
+### 3. Enter the cloned repo and run:
+
+    sudo make install
+
 ### 3a. Remove vbm
 
 If you want to remove vbm, just use make to remove it. Make sure you are in the cloned directory first, then run:
 
-    $ make uninstall
+    sudo make uninstall
+
+    or simply
+
+    vbm remove vbm :)
 
 # ZOMG! PONIES!!111
 
