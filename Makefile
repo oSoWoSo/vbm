@@ -1,4 +1,4 @@
-PREFIX_BIN ?= /bin
+PREFIX_BIN ?= /usr/bin
 PREFIX_BASHC ?= /usr/share/bash-completion/completions
 
 .PHONY: all
