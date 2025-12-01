@@ -158,9 +158,16 @@ version() {
 
 # check if we have UID 0, exit otherwise
 rootcheck() {
+  SUDO=''
   if [[ $EUID -gt 0 ]]; then
-    msg "$(tput setaf 1)This operation needs super-user privileges.$(tput sgr 0)"
-    SUDO=sudo
+    msg "$(tput setaf 1)This operation needs super-user privileges.$(tput sgr0)"
+    if command -v doas >/dev/null && [ -f /etc/doas.conf ]; then
+      SUDO=doas
+    elif command -v sudo >/dev/null; then
+      SUDO=sudo
+    else
+      SUDO='su root -c '\''"$@"'\'' -- -'
+    fi
   else
     SUDO=''
   fi
