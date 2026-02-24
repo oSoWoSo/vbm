@@ -101,8 +101,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Mirrors
 
-- repos mirrored at:
-- 'https://github.com/oSoWoSo/vbm'
-- 'https://gitlab.com/linux15/void/vbm'
-- 'https://git.disroot.org/oSoWoSo/vbm'
-- more mirrors will come...
+## repos mirrors:
+- [disroot](https://git.disroot.org/oSoWoSo/vpm)
+- [github](https://github.com/oSoWoSo/vbm)
+- [gitlab](https://gitlab.com/osowoso/vpm)
+- [gitgud](https://gitgud.io/osowoso/vpm)
+- [bitbucket](https://bitbucket.org/osowoso/vpm)
